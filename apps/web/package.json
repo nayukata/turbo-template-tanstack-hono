@@ -8,7 +8,8 @@
 		"build": "vite build",
 		"start": "vite preview",
 		"lint": "biome check --write",
-		"check-types": "tsc --noEmit"
+		"check-types": "tsc --noEmit",
+		"deploy": "pnpm build && wrangler deploy"
 	},
 	"dependencies": {
 		"@repo/auth": "workspace:*",
@@ -30,6 +31,7 @@
 		"valibot": "catalog:"
 	},
 	"devDependencies": {
+		"@cloudflare/vite-plugin": "^1.19.0",
 		"@repo/biome-config": "workspace:*",
 		"@repo/typescript-config": "workspace:*",
 		"@tailwindcss/vite": "^4.1.18",
@@ -37,6 +39,7 @@
 		"tailwindcss": "^4.1.18",
 		"typescript": "catalog:",
 		"vite": "^7.3.0",
-		"vite-tsconfig-paths": "^6.0.3"
+		"vite-tsconfig-paths": "^6.0.3",
+		"wrangler": "^4.56.0"
 	}
 }
