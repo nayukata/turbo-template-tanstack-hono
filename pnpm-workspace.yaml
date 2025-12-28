@@ -1,3 +1,18 @@
 packages:
   - "apps/*"
   - "packages/*"
+
+catalog:
+  react: "^19.1.0"
+  react-dom: "^19.1.0"
+  typescript: "^5.9.3"
+  "@types/node": "^25.0.3"
+  "@types/react": "^19.2.7"
+  "@types/react-dom": "^19.2.3"
+  valibot: "^1.2.0"
+  dayjs: "^1.11.19"
+  remeda: "^2.32.0"
+  react-aria-components: "^1.14.0"
+  tsx: "^4.19.0"
+  "@tanstack/react-form": "^1.27.6"
+  "@tanstack/valibot-form-adapter": "^0.42.1"

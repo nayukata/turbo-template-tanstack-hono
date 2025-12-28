@@ -3,7 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
+  "exports": {
+    "./base.json": "./base.json",
+    "./library.json": "./library.json",
+    "./hono.json": "./hono.json",
+    "./tanstack-start.json": "./tanstack-start.json",
+    "./react-library.json": "./react-library.json",
+    "./nextjs.json": "./nextjs.json"
   }
 }

@@ -1,0 +1,40 @@
+{
+	"name": "api",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./hc": {
+			"import": {
+				"types": "./dist/hc.d.ts",
+				"default": "./dist/hc.js"
+			}
+		}
+	},
+	"scripts": {
+		"dev": "tsx watch src/index.ts",
+		"build": "tsc -p tsconfig.build.json",
+		"start": "tsx src/index.ts",
+		"lint": "biome check --write",
+		"check-types": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@hono/node-server": "^1.14.0",
+		"@hono/valibot-validator": "^0.5.0",
+		"@repo/auth": "workspace:*",
+		"@repo/db": "workspace:*",
+		"@repo/validators": "workspace:*",
+		"@valibot/to-json-schema": "^1.5.0",
+		"dayjs": "catalog:",
+		"hono": "^4.7.0",
+		"hono-openapi": "^0.4.0",
+		"remeda": "catalog:",
+		"valibot": "catalog:"
+	},
+	"devDependencies": {
+		"@repo/biome-config": "workspace:*",
+		"@repo/typescript-config": "workspace:*",
+		"tsx": "catalog:",
+		"typescript": "catalog:"
+	}
+}

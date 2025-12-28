@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/* Include UI package source files for Tailwind class detection */
+@source "../../../packages/ui/src/**/*.tsx";
+
+@theme {
+	/* Dark sophisticated palette */
+	--color-primary: oklch(0.98 0 0);
+	--color-primary-foreground: oklch(0.12 0.01 250);
+	--color-secondary: oklch(0.2 0.01 250);
+	--color-secondary-foreground: oklch(0.9 0 0);
+	--color-muted: oklch(0.25 0.01 250);
+	--color-muted-foreground: oklch(0.6 0.01 250);
+	--color-accent: oklch(0.18 0.01 250);
+	--color-accent-foreground: oklch(0.95 0 0);
+	--color-destructive: oklch(0.55 0.2 25);
+	--color-destructive-foreground: oklch(0.98 0 0);
+	--color-background: oklch(0.1 0.01 250);
+	--color-foreground: oklch(0.95 0 0);
+	--color-border: oklch(0.25 0.01 250);
+	--color-input: oklch(0.18 0.01 250);
+	--color-ring: oklch(0.6 0.15 280);
+
+	/* Surface layers for depth */
+	--color-surface-1: oklch(0.12 0.01 250);
+	--color-surface-2: oklch(0.15 0.01 250);
+	--color-surface-3: oklch(0.18 0.01 250);
+
+	/* Framework brand colors - more vibrant */
+	--color-tanstack: oklch(0.7 0.28 25);
+	--color-tanstack-foreground: oklch(0.98 0 0);
+	--color-hono: oklch(0.72 0.22 40);
+	--color-hono-foreground: oklch(0.98 0 0);
+	--color-turso: oklch(0.78 0.18 175);
+	--color-turso-foreground: oklch(0.1 0.05 175);
+
+	--radius-sm: 0.25rem;
+	--radius-md: 0.5rem;
+	--radius-lg: 1rem;
+	--radius-xl: 1.5rem;
+	--radius-full: 9999px;
+
+	/* Animation timing */
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+	--ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+	/* 3D depth */
+	--perspective-default: 1000px;
+	--perspective-deep: 2000px;
+}
+
+@layer base {
+	*,
+	*::before,
+	*::after {
+		@apply border-border;
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		@apply bg-background text-foreground antialiased;
+		font-family:
+			"Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo,
+			sans-serif;
+		letter-spacing: 0.02em;
+	}
+
+	/* Noise texture overlay */
+	body::before {
+		content: "";
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: 9999;
+		opacity: 0.03;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+	}
+
+	/* Reduced motion support */
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+		}
+	}
+}
+
+@layer utilities {
+	/* Marquee animation */
+	@keyframes marquee {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(-100%);
+		}
+	}
+
+	/* Feature list hover - dim siblings */
+	.feature-list:hover .feature-item {
+		opacity: 0.4 !important;
+	}
+
+	.feature-list .feature-item:hover {
+		opacity: 1 !important;
+	}
+
+	.feature-list .feature-item {
+		transition: opacity 0.3s ease;
+	}
+
+	/* 3D transforms */
+	.perspective {
+		perspective: var(--perspective-default);
+	}
+
+	.perspective-deep {
+		perspective: var(--perspective-deep);
+	}
+
+	.preserve-3d {
+		transform-style: preserve-3d;
+	}
+
+	/* Glow effects */
+	.glow-tanstack {
+		box-shadow: 0 0 60px -10px oklch(0.7 0.28 25 / 0.5);
+	}
+
+	.glow-hono {
+		box-shadow: 0 0 60px -10px oklch(0.72 0.22 40 / 0.5);
+	}
+
+	.glow-turso {
+		box-shadow: 0 0 60px -10px oklch(0.78 0.18 175 / 0.5);
+	}
+
+	/* Text glow */
+	.text-glow {
+		text-shadow: 0 0 40px currentColor;
+	}
+
+	/* Gradient text */
+	.gradient-text {
+		background-clip: text;
+		-webkit-background-clip: text;
+		color: transparent;
+	}
+
+	/* Smooth scrollbar */
+	::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: oklch(0.12 0.01 250);
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: oklch(0.3 0.01 250);
+		border-radius: 3px;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background: oklch(0.4 0.01 250);
+	}
+}

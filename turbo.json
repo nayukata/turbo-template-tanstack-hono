@@ -1,11 +1,22 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
+  "globalEnv": [
+    "TURSO_DATABASE_URL",
+    "TURSO_AUTH_TOKEN",
+    "BETTER_AUTH_SECRET",
+    "BETTER_AUTH_URL"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": ["dist/**", ".output/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -13,9 +24,20 @@
     "check-types": {
       "dependsOn": ["^check-types"]
     },
-    "dev": {
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "**/*.test.ts", "**/*.test.tsx"]
+    },
+    "db:generate": {
       "cache": false,
-      "persistent": true
+      "inputs": ["src/schema/**"]
+    },
+    "db:migrate": {
+      "cache": false,
+      "dependsOn": ["db:generate"]
+    },
+    "db:push": {
+      "cache": false
     }
   }
 }
