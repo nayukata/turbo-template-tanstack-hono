@@ -10,6 +10,15 @@ import {
 	useTransform,
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
+import { GitHubIcon } from "~/components/icons";
+
+const INSTALL_COMMAND = "npx degit nayukata/turbo-template-tanstack-hono my-app";
+
+function copyToClipboard() {
+	navigator.clipboard.writeText(INSTALL_COMMAND);
+	toast.success("クリップボードにコピーしました");
+}
 
 const EASE_OUT_SOFT = [0.23, 1, 0.32, 1] as const;
 
@@ -29,7 +38,7 @@ function GlitchText({
 	if (shouldReduceMotion) {
 		return (
 			<h1
-				className={`text-[clamp(3rem,10vw,7rem)] font-bold leading-[1.05] tracking-tight ${color}`}
+				className={`text-[clamp(2.5rem,8vw,5rem)] font-bold leading-[1.05] tracking-tight ${color}`}
 				style={{ textShadow: `0 0 80px ${glowColor}` }}
 			>
 				{children}
@@ -41,7 +50,7 @@ function GlitchText({
 		<div className="relative">
 			{/* Glitch layers */}
 			<motion.h1
-				className={`absolute inset-0 text-[clamp(3rem,10vw,7rem)] font-bold leading-[1.05] tracking-tight ${color} opacity-70`}
+				className={`absolute inset-0 text-[clamp(2.5rem,8vw,5rem)] font-bold leading-[1.05] tracking-tight ${color} opacity-70`}
 				style={{ textShadow: `0 0 80px ${glowColor}` }}
 				initial={{ x: -8, opacity: 0 }}
 				animate={{
@@ -58,7 +67,7 @@ function GlitchText({
 				{children}
 			</motion.h1>
 			<motion.h1
-				className={`absolute inset-0 text-[clamp(3rem,10vw,7rem)] font-bold leading-[1.05] tracking-tight ${color} opacity-70`}
+				className={`absolute inset-0 text-[clamp(2.5rem,8vw,5rem)] font-bold leading-[1.05] tracking-tight ${color} opacity-70`}
 				style={{ textShadow: `0 0 80px ${glowColor}` }}
 				initial={{ x: 8, opacity: 0 }}
 				animate={{
@@ -77,7 +86,7 @@ function GlitchText({
 
 			{/* Main text */}
 			<motion.h1
-				className={`relative text-[clamp(3rem,10vw,7rem)] font-bold leading-[1.05] tracking-tight ${color}`}
+				className={`relative text-[clamp(2.5rem,8vw,5rem)] font-bold leading-[1.05] tracking-tight ${color}`}
 				style={{ textShadow: `0 0 80px ${glowColor}` }}
 				initial={{ opacity: 0, x: -20, skewX: -10 }}
 				animate={{ opacity: 1, x: 0, skewX: 0 }}
@@ -355,6 +364,7 @@ export function HeroSection() {
 					<Button
 						size="lg"
 						className="group relative min-w-[180px] overflow-hidden rounded-full bg-foreground text-background transition-transform duration-300 hover:scale-105"
+						onPress={copyToClipboard}
 					>
 						<span className="relative z-10">Get Started</span>
 						<div
@@ -366,11 +376,20 @@ export function HeroSection() {
 						/>
 					</Button>
 					<Button
+						asChild
 						size="lg"
 						variant="outline"
-						className="min-w-[180px] rounded-full border-muted-foreground/30 transition-all duration-300 hover:border-foreground/60 hover:bg-foreground/5"
+						className="min-w-[180px] cursor-pointer rounded-full border-muted-foreground/30 transition-all duration-300 hover:border-foreground/60 hover:bg-foreground/5"
 					>
-						View Source
+						<a
+							href="https://github.com/nayukata/turbo-template-tanstack-hono"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="flex items-center gap-2"
+						>
+							<GitHubIcon className="h-5 w-5" />
+							GitHub
+						</a>
 					</Button>
 				</FloatIn>
 			</motion.div>

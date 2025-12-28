@@ -6,6 +6,7 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { NuqsAdapter } from "nuqs/adapters/react";
+import { Toaster } from "sonner";
 import appCss from "~/app.css?url";
 import { createQueryClient } from "~/lib/query-client";
 
@@ -42,6 +43,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				{children}
+				<Toaster theme="dark" position="bottom-center" />
 				<Scripts />
 			</body>
 		</html>

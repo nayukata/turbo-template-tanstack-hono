@@ -63,7 +63,7 @@ function MarqueeRow({
 	const repeatedItems = [...items, ...items];
 
 	const animationStyle: React.CSSProperties = {
-		animation: `marquee 60s linear infinite ${reverse ? "reverse" : ""}`,
+		animation: `marquee 90s linear infinite ${reverse ? "reverse" : ""}`,
 	};
 
 	return (

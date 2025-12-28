@@ -1,5 +1,6 @@
 export { BiomeIcon } from "./biome";
 export { DrizzleIcon } from "./drizzle";
+export { GitHubIcon } from "./github";
 export { HonoIcon } from "./hono";
 export { MotionIcon } from "./motion";
 export { PnpmIcon } from "./pnpm";

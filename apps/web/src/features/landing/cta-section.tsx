@@ -3,6 +3,15 @@
 import { Button } from "@repo/ui/button";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
+import { toast } from "sonner";
+import { GitHubIcon } from "~/components/icons";
+
+const INSTALL_COMMAND = "npx degit nayukata/turbo-template-tanstack-hono my-app";
+
+function copyToClipboard() {
+	navigator.clipboard.writeText(INSTALL_COMMAND);
+	toast.success("クリップボードにコピーしました");
+}
 
 export function CTASection() {
 	const sectionRef = useRef<HTMLElement>(null);
@@ -65,13 +74,13 @@ export function CTASection() {
 				</motion.h2>
 
 				<motion.p
-					className="mx-auto mb-10 max-w-md text-sm text-muted-foreground md:text-base"
+					className="mx-auto mb-10 text-sm text-muted-foreground md:text-base"
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
 					viewport={{ once: false }}
 				>
-					1つのコマンドで、型安全なフルスタック開発を始められます
+					1つのコマンドで、型安全なフルスタック開発を始めよう
 				</motion.p>
 
 				{/* Terminal */}
@@ -93,7 +102,7 @@ export function CTASection() {
 					<div className="px-5 py-4 font-mono text-sm">
 						<span className="text-muted-foreground">$</span>{" "}
 						<span className="text-foreground">
-							npx create-turbo@latest -e with-hono-turso
+							npx degit nayukata/turbo-template-tanstack-hono my-app
 						</span>
 					</div>
 				</motion.div>
@@ -109,15 +118,25 @@ export function CTASection() {
 					<Button
 						size="lg"
 						className="min-w-[200px] rounded-full bg-foreground text-background hover:bg-foreground/90"
+						onPress={copyToClipboard}
 					>
 						Use Template
 					</Button>
 					<Button
+						asChild
 						size="lg"
 						variant="outline"
-						className="min-w-[200px] rounded-full border-muted-foreground/30 hover:border-foreground/50"
+						className="min-w-[200px] cursor-pointer rounded-full border-muted-foreground/30 hover:border-foreground/50"
 					>
-						View Source
+						<a
+							href="https://github.com/nayukata/turbo-template-tanstack-hono"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="flex items-center gap-2"
+						>
+							<GitHubIcon className="h-5 w-5" />
+							GitHub
+						</a>
 					</Button>
 				</motion.div>
 			</motion.div>
