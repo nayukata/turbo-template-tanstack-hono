@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"@libsql/client": "^0.15.0",
-		"drizzle-orm": "^0.44.0"
+		"drizzle-orm": "^0.45.1"
 	},
 	"devDependencies": {
 		"@repo/biome-config": "workspace:*",
