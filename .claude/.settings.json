@@ -1,0 +1,8 @@
+{
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": ["Skill(*)"],
+    "deny": [],
+    "ask": []
+  }
+}

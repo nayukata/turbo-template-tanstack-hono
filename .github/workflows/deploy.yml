@@ -1,0 +1,81 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy"
+        required: true
+        type: choice
+        options:
+          - production
+          - development
+  push:
+    branches: [main, develop]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine environment
+        id: env
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "name=${{ inputs.environment }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "name=production" >> $GITHUB_OUTPUT
+          else
+            echo "name=development" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check secrets
+        env:
+          PROD_KEY: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
+          DEV_KEY: ${{ secrets.DOTENV_PRIVATE_KEY_DEVELOPMENT }}
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ "${{ steps.env.outputs.name }}" = "production" ] && [ -z "$PROD_KEY" ]; then
+            echo "::error::DOTENV_PRIVATE_KEY_PRODUCTION is not set"
+            exit 1
+          fi
+          if [ "${{ steps.env.outputs.name }}" = "development" ] && [ -z "$DEV_KEY" ]; then
+            echo "::error::DOTENV_PRIVATE_KEY_DEVELOPMENT is not set"
+            exit 1
+          fi
+          if [ -z "$TOKEN" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN is not set"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: "pnpm"
+
+      - run: pnpm install
+
+      - name: Build (Production)
+        if: steps.env.outputs.name == 'production'
+        env:
+          DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
+        run: pnpm build
+
+      - name: Build (Development)
+        if: steps.env.outputs.name == 'development'
+        env:
+          DOTENV_PRIVATE_KEY_DEVELOPMENT: ${{ secrets.DOTENV_PRIVATE_KEY_DEVELOPMENT }}
+        run: pnpm build
+
+      - name: Deploy API
+        working-directory: apps/api
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: pnpm deploy
+
+      - name: Deploy Web
+        working-directory: apps/web
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: pnpm deploy
