@@ -2,19 +2,23 @@ import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import * as schema from "./schema";
 
-function createDb() {
-	const url = process.env.TURSO_DATABASE_URL ?? "file:./local.db";
+type DbEnv = {
+	TURSO_DATABASE_URL?: string;
+	TURSO_AUTH_TOKEN?: string;
+};
+
+export function createDb(env: DbEnv) {
+	const url = env.TURSO_DATABASE_URL ?? "file:./local.db";
 
 	const client = createClient({
 		url,
-		authToken: process.env.TURSO_AUTH_TOKEN,
+		authToken: env.TURSO_AUTH_TOKEN,
 	});
 
 	return drizzle({ client, schema });
 }
 
-export const db = createDb();
-export type Database = typeof db;
+export type Database = ReturnType<typeof createDb>;
 
 export { and, eq, gt, gte, inArray, lt, lte, ne, not, or } from "drizzle-orm";
 export * from "./schema";

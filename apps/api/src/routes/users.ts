@@ -1,9 +1,11 @@
-import { db, eq, users } from "@repo/db";
+import { eq, users } from "@repo/db";
 import { updateUserSchema, userSchema } from "@repo/validators";
 import { Hono } from "hono";
 import { describeRoute } from "hono-openapi";
 import { resolver, validator } from "hono-openapi/valibot";
 import * as v from "valibot";
+import type { Env } from "../env";
+import type { DbVariables } from "../middleware/db";
 
 const userResponseSchema = v.object({
 	success: v.literal(true),
@@ -26,7 +28,10 @@ const userIdParamSchema = v.object({
 	id: v.string(),
 });
 
-export const usersRoute = new Hono()
+export const usersRoute = new Hono<{
+	Bindings: Env;
+	Variables: DbVariables;
+}>()
 	.get(
 		"/",
 		describeRoute({
@@ -44,6 +49,7 @@ export const usersRoute = new Hono()
 			},
 		}),
 		async (c) => {
+			const db = c.get("db");
 			const allUsers = await db.select().from(users);
 			return c.json({
 				success: true as const,
@@ -77,6 +83,7 @@ export const usersRoute = new Hono()
 		}),
 		validator("param", userIdParamSchema),
 		async (c) => {
+			const db = c.get("db");
 			const { id } = c.req.valid("param");
 			const user = await db.select().from(users).where(eq(users.id, id)).get();
 
@@ -123,6 +130,7 @@ export const usersRoute = new Hono()
 		validator("param", userIdParamSchema),
 		validator("json", updateUserSchema),
 		async (c) => {
+			const db = c.get("db");
 			const { id } = c.req.valid("param");
 			const body = c.req.valid("json");
 
