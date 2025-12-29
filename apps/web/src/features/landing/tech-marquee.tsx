@@ -1,6 +1,8 @@
 import type { ComponentType, SVGProps } from "react";
 import {
 	BiomeIcon,
+	CloudflareWorkersIcon,
+	DotenvxIcon,
 	DrizzleIcon,
 	HonoIcon,
 	MotionIcon,
@@ -17,21 +19,23 @@ import {
 
 const ROW_1 = [
 	{ name: "TanStack", icon: TanStackIcon },
+	{ name: "React", icon: ReactIcon },
+	{ name: "Tailwind CSS", icon: TailwindIcon },
 	{ name: "Hono", icon: HonoIcon },
 	{ name: "Turso", icon: TursoIcon },
 	{ name: "Drizzle", icon: DrizzleIcon },
 	{ name: "Valibot", icon: ValibotIcon },
-	{ name: "React", icon: ReactIcon },
 ] as const;
 
 const ROW_2 = [
 	{ name: "TypeScript", icon: TypeScriptIcon },
-	{ name: "Tailwind CSS", icon: TailwindIcon },
-	{ name: "Vite", icon: ViteIcon },
-	{ name: "Turborepo", icon: TurborepoIcon },
 	{ name: "Motion", icon: MotionIcon },
-	{ name: "Biome", icon: BiomeIcon },
+	{ name: "Vite", icon: ViteIcon },
+	{ name: "Cloudflare Workers", icon: CloudflareWorkersIcon },
+	{ name: "Turborepo", icon: TurborepoIcon },
 	{ name: "pnpm", icon: PnpmIcon },
+	{ name: "Biome", icon: BiomeIcon },
+	{ name: "dotenvx", icon: DotenvxIcon },
 ] as const;
 
 type Technology = {

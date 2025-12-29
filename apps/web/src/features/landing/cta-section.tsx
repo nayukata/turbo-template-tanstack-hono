@@ -1,12 +1,14 @@
 "use client";
 
-import { Button } from "@repo/ui/button";
+import { Button, buttonVariants } from "@repo/ui/button";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
+import { Link } from "react-aria-components";
 import { toast } from "sonner";
 import { GitHubIcon } from "~/components/icons";
 
-const INSTALL_COMMAND = "npx degit nayukata/turbo-template-tanstack-hono my-app";
+const INSTALL_COMMAND =
+	"npx degit nayukata/turbo-template-tanstack-hono my-app";
 
 function copyToClipboard() {
 	navigator.clipboard.writeText(INSTALL_COMMAND);
@@ -36,8 +38,8 @@ export function CTASection() {
 		>
 			{/* Background gradient */}
 			<div className="absolute inset-0">
-				<div className="absolute inset-0 bg-gradient-to-b from-background via-surface-1 to-background" />
-				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-foreground/5 blur-[150px]" />
+				<div className="absolute inset-0 bg-linear-to-b from-background via-surface-1 to-background" />
+				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-150 w-150 rounded-full bg-foreground/5 blur-[150px]" />
 			</div>
 
 			{/* Grid pattern */}
@@ -64,7 +66,7 @@ export function CTASection() {
 				>
 					<span className="text-foreground">Ready to </span>
 					<span
-						className="bg-gradient-to-r from-tanstack via-hono to-turso bg-clip-text text-transparent"
+						className="bg-linear-to-r from-tanstack via-hono to-turso bg-clip-text text-transparent"
 						style={{
 							backgroundSize: "200% 200%",
 						}}
@@ -117,27 +119,25 @@ export function CTASection() {
 				>
 					<Button
 						size="lg"
-						className="min-w-[200px] rounded-full bg-foreground text-background hover:bg-foreground/90"
+						className="min-w-50 rounded-full bg-foreground text-background hover:bg-foreground/90"
 						onPress={copyToClipboard}
 					>
 						Use Template
 					</Button>
-					<Button
-						asChild
-						size="lg"
-						variant="outline"
-						className="min-w-[200px] cursor-pointer rounded-full border-muted-foreground/30 hover:border-foreground/50"
+					<Link
+						href="https://github.com/nayukata/turbo-template-tanstack-hono"
+						target="_blank"
+						rel="noopener noreferrer"
+						className={buttonVariants({
+							size: "lg",
+							variant: "outline",
+							className:
+								"min-w-50 cursor-pointer rounded-full border-muted-foreground/30 hover:border-foreground/50",
+						})}
 					>
-						<a
-							href="https://github.com/nayukata/turbo-template-tanstack-hono"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="flex items-center gap-2"
-						>
-							<GitHubIcon className="h-5 w-5" />
-							GitHub
-						</a>
-					</Button>
+						<GitHubIcon className="h-5 w-5" />
+						GitHub
+					</Link>
 				</motion.div>
 			</motion.div>
 

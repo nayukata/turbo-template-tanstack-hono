@@ -1,4 +1,6 @@
 export { BiomeIcon } from "./biome";
+export { CloudflareWorkersIcon } from "./cloudflare-workers";
+export { DotenvxIcon } from "./dotenvx";
 export { DrizzleIcon } from "./drizzle";
 export { GitHubIcon } from "./github";
 export { HonoIcon } from "./hono";

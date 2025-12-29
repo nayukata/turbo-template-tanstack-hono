@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@repo/ui/button";
+import { Button, buttonVariants } from "@repo/ui/button";
 import {
 	motion,
 	useMotionValue,
@@ -10,10 +10,12 @@ import {
 	useTransform,
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-aria-components";
 import { toast } from "sonner";
 import { GitHubIcon } from "~/components/icons";
 
-const INSTALL_COMMAND = "npx degit nayukata/turbo-template-tanstack-hono my-app";
+const INSTALL_COMMAND =
+	"npx degit nayukata/turbo-template-tanstack-hono my-app";
 
 function copyToClipboard() {
 	navigator.clipboard.writeText(INSTALL_COMMAND);
@@ -363,7 +365,7 @@ export function HeroSection() {
 				>
 					<Button
 						size="lg"
-						className="group relative min-w-[180px] overflow-hidden rounded-full bg-foreground text-background transition-transform duration-300 hover:scale-105"
+						className="group relative min-w-45 overflow-hidden rounded-full bg-foreground text-background transition-transform duration-300 hover:scale-105"
 						onPress={copyToClipboard}
 					>
 						<span className="relative z-10">Get Started</span>
@@ -375,22 +377,20 @@ export function HeroSection() {
 							}}
 						/>
 					</Button>
-					<Button
-						asChild
-						size="lg"
-						variant="outline"
-						className="min-w-[180px] cursor-pointer rounded-full border-muted-foreground/30 transition-all duration-300 hover:border-foreground/60 hover:bg-foreground/5"
+					<Link
+						href="https://github.com/nayukata/turbo-template-tanstack-hono"
+						target="_blank"
+						rel="noopener noreferrer"
+						className={buttonVariants({
+							size: "lg",
+							variant: "outline",
+							className:
+								"min-w-45 cursor-pointer rounded-full border-muted-foreground/30 transition-all duration-300 hover:border-foreground/60 hover:bg-foreground/5",
+						})}
 					>
-						<a
-							href="https://github.com/nayukata/turbo-template-tanstack-hono"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="flex items-center gap-2"
-						>
-							<GitHubIcon className="h-5 w-5" />
-							GitHub
-						</a>
-					</Button>
+						<GitHubIcon className="h-5 w-5" />
+						GitHub
+					</Link>
 				</FloatIn>
 			</motion.div>
 		</section>
