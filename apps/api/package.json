@@ -38,6 +38,6 @@
 		"@repo/typescript-config": "workspace:*",
 		"tsx": "catalog:",
 		"typescript": "catalog:",
-		"wrangler": "^4.56.0"
+		"wrangler": "catalog:"
 	}
 }
