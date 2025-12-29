@@ -1,9 +1,8 @@
 import { hc } from "hono/client";
-import { app } from "./app";
+import type { AppType } from "./app";
 
-// コンパイル時に型を計算するためのダミークライアント
-const client = hc<typeof app>("");
+const client = hc<AppType>("");
 export type Client = typeof client;
 
 export const hcWithType = (...args: Parameters<typeof hc>): Client =>
-	hc<typeof app>(...args);
+	hc<AppType>(...args);
