@@ -12,13 +12,15 @@
 		}
 	},
 	"scripts": {
-		"dev": "tsx watch src/index.ts",
+		"dev": "dotenvx run -f .env -f .env.development -- tsx watch src/index.ts",
 		"build": "tsc -p tsconfig.build.json",
-		"start": "tsx src/index.ts",
+		"start": "dotenvx run -f .env -f .env.production -- tsx src/index.ts",
+		"deploy": "wrangler deploy",
 		"lint": "biome check --write",
 		"check-types": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@dotenvx/dotenvx": "^1.51.2",
 		"@hono/node-server": "^1.14.0",
 		"@hono/valibot-validator": "^0.5.0",
 		"@repo/auth": "workspace:*",
@@ -35,6 +37,7 @@
 		"@repo/biome-config": "workspace:*",
 		"@repo/typescript-config": "workspace:*",
 		"tsx": "catalog:",
-		"typescript": "catalog:"
+		"typescript": "catalog:",
+		"wrangler": "^4.56.0"
 	}
 }

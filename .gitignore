@@ -5,12 +5,12 @@ node_modules
 .pnp
 .pnp.js
 
-# Local env files
-.env
+# Environment files (TanStack Start convention)
+# .env, .env.development, .env.production -> committed (encrypted with dotenvx)
+# .env.keys -> private keys (never commit)
+# .env.local -> local overrides (never commit)
+.env.keys
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
 # Testing
 coverage
