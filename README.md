@@ -1,135 +1,253 @@
-# Turborepo starter
+# TanStack Start + Hono + Turso Template
 
-This Turborepo starter is maintained by the Turborepo core team.
+Turborepo を使用したフルスタック TypeScript モノレポテンプレート。
 
-## Using this example
+## 技術スタック
 
-Run the following command:
+| カテゴリ | 技術 |
+|----------|------|
+| モノレポ | Turborepo, pnpm |
+| フロントエンド | TanStack Start, TanStack Router, TanStack Query, React 19 |
+| バックエンド | Hono, hono-openapi |
+| データベース | Turso (libSQL), Drizzle ORM |
+| 認証 | Better Auth |
+| スタイリング | Tailwind CSS v4, React Aria Components, tailwind-variants |
+| バリデーション | Valibot |
+| リンター | Biome |
+| テスト | Vitest |
+| デプロイ | Cloudflare Workers |
+
+## プロジェクト構成
+
+```
+apps/
+  api/          # Hono API サーバー
+  web/          # TanStack Start フロントエンド
+
+packages/
+  auth/         # Better Auth 設定
+  db/           # Turso + Drizzle ORM
+  ui/           # React Aria Components
+  validators/   # Valibot スキーマ
+  biome-config/ # Biome 設定
+  typescript-config/ # TypeScript 設定
+```
+
+## セットアップ
+
+### 必要条件
+
+- Node.js >= 24
+- pnpm >= 10.26.2
+
+### 初期設定
 
 ```sh
-npx create-turbo@latest
+# 依存関係をインストール
+pnpm install
+
+# 開発サーバーを起動
+pnpm dev
 ```
 
-## What's inside?
+### 環境変数
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/biome-config`: `biome` configurations
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [Biome](https://biomejs.dev/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+TanStack Start の規約に従い、環境ごとにファイルを分離:
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+.env              # 共通設定（平文、コミット）
+.env.development  # 開発環境（暗号化してコミット）
+.env.production   # 本番環境（暗号化してコミット）
+.env.local        # ローカルオーバーライド（gitignore）
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+**apps/api**
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+| 変数 | ファイル | 説明 |
+|------|----------|------|
+| `API_PORT` | `.env` | API サーバーポート (デフォルト: 4000) |
+| `TURSO_DATABASE_URL` | `.env.[env]` | Turso データベース URL |
+| `TURSO_AUTH_TOKEN` | `.env.[env]` | Turso 認証トークン |
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+**apps/web**
 
-### Develop
+| 変数 | ファイル | 説明 |
+|------|----------|------|
+| `BETTER_AUTH_SECRET` | `.env.[env]` | 認証シークレット (32文字以上) |
+| `BETTER_AUTH_URL` | `.env.[env]` | 認証コールバック URL |
 
-To develop all apps and packages, run the following command:
+### データベース
 
-```
-cd my-turborepo
+```sh
+# マイグレーションを生成
+pnpm db:generate
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+# マイグレーションを適用
+pnpm db:migrate
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+# スキーマを直接プッシュ (開発用)
+pnpm db:push
 ```
 
-### Remote Caching
+### 開発
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+```sh
+# 全アプリを起動
+pnpm dev
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+# 特定のアプリを起動
+pnpm dev --filter=web
+pnpm dev --filter=api
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### ビルド
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+```sh
+# 全てビルド
+pnpm build
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+# 特定のアプリをビルド
+pnpm build --filter=web
 ```
 
-## Useful Links
+### リント & 型チェック
 
-Learn more about the power of Turborepo:
+```sh
+# リント
+pnpm lint
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+# 型チェック
+pnpm check-types
+
+# フォーマット
+pnpm format
+```
+
+### テスト
+
+```sh
+# テスト実行 (watch モード)
+pnpm test
+
+# テスト実行 (1回のみ)
+pnpm test:run
+```
+
+## API クライアント (Hono RPC)
+
+Hono RPC による型安全な API クライアント:
+
+```typescript
+import { hcWithType } from "api/hc";
+
+const api = hcWithType("http://localhost:4000");
+
+// リクエスト/レスポンスが完全に型付け
+const res = await api.users.$get();
+const users = await res.json();
+```
+
+## デプロイ
+
+両アプリを Cloudflare Workers にデプロイ。
+
+```sh
+# web をデプロイ
+pnpm --filter=web deploy
+
+# api をデプロイ
+pnpm --filter=api deploy
+```
+
+### 環境変数の暗号化 (dotenvx)
+
+[dotenvx](https://dotenvx.com/) で環境変数を暗号化し、チームで安全に共有。
+
+**暗号化コマンド**:
+
+```sh
+# 開発環境を暗号化
+pnpm env:encrypt:dev
+
+# 本番環境を暗号化
+pnpm env:encrypt:prod
+```
+
+**初回セットアップ (リーダー)**:
+
+```sh
+# 1. .env.development, .env.production を編集
+# 2. 暗号化
+pnpm env:encrypt:dev
+pnpm env:encrypt:prod
+
+# 3. 暗号化されたファイルをコミット
+git add apps/*/.env.development apps/*/.env.production
+git commit -m "Add encrypted env files"
+
+# 4. .env.keys をチームに共有 (1Password, Slack DM など)
+```
+
+**チームメンバー**:
+
+```sh
+# 1. リーダーから .env.keys を受け取る
+# 2. 各 apps/*/ に配置
+# 3. 必要に応じて復号
+pnpm env:decrypt:dev
+pnpm env:decrypt:prod
+```
+
+**CI/CD (GitHub Actions)**:
+
+`.env.keys` から秘密鍵を取得し、GitHub Secrets に設定:
+
+| Secret | 値 |
+|--------|-----|
+| `DOTENV_PRIVATE_KEY_DEVELOPMENT` | `.env.keys` の `DOTENV_PRIVATE_KEY_DEVELOPMENT` |
+| `DOTENV_PRIVATE_KEY_PRODUCTION` | `.env.keys` の `DOTENV_PRIVATE_KEY_PRODUCTION` |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API トークン |
+
+## アーキテクチャ
+
+### 環境変数
+
+`dotenvx run` で環境変数を注入し、Hono の `env()` ヘルパーでアクセス:
+
+```typescript
+// Hono のランタイム非依存ヘルパーでアクセス
+import { env } from "hono/adapter";
+
+app.get("/", (c) => {
+  const { TURSO_DATABASE_URL } = env<Env>(c);
+});
+```
+
+実行時は `dotenvx run` が自動で環境変数を注入:
+
+```sh
+# package.json
+"dev": "dotenvx run -f .env -f .env.development -- tsx watch src/index.ts"
+```
+
+### データベース初期化
+
+Cloudflare Workers 対応のため、リクエストごとにミドルウェアで DB を初期化:
+
+```typescript
+// packages/db
+export function createDb(env: DbEnv) {
+  return drizzle({ client: createClient({ url: env.TURSO_DATABASE_URL, ... }) });
+}
+
+// apps/api/src/middleware/db.ts
+export const dbMiddleware = createMiddleware(async (c, next) => {
+  const db = createDb(env(c));
+  c.set("db", db);
+  await next();
+});
+```
+
+## ライセンス
+
+MIT
