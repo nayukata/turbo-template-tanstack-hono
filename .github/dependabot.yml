@@ -1,0 +1,70 @@
+version: 2
+updates:
+  # npm (pnpm) dependencies
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+      time: "09:00"
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 10
+    groups:
+      # 開発依存関係をグループ化
+      dev-dependencies:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+      # TanStack 関連をグループ化
+      tanstack:
+        patterns:
+          - "@tanstack/*"
+      # Hono 関連をグループ化
+      hono:
+        patterns:
+          - "hono"
+          - "@hono/*"
+          - "hono-openapi"
+      # Drizzle 関連をグループ化
+      drizzle:
+        patterns:
+          - "drizzle-orm"
+          - "drizzle-kit"
+      # React Aria 関連をグループ化
+      react-aria:
+        patterns:
+          - "react-aria-components"
+          - "@react-aria/*"
+          - "@react-stately/*"
+      # Cloudflare 関連をグループ化
+      cloudflare:
+        patterns:
+          - "wrangler"
+          - "@cloudflare/*"
+      # React 関連をグループ化
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      # Turborepo 関連をグループ化
+      turbo:
+        patterns:
+          - "turbo"
+          - "@turbo/*"
+      # TypeScript
+      typescript:
+        patterns:
+          - "typescript"
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+      time: "09:00"
+      timezone: Asia/Tokyo
+    groups:
+      actions:
+        patterns:
+          - "*"
