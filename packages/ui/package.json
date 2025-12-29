@@ -13,7 +13,7 @@
 	"dependencies": {
 		"motion": "^12.23.26",
 		"react-aria-components": "catalog:",
-		"tailwind-variants": "^0.3.0"
+		"tailwind-variants": "^3.2.2"
 	},
 	"devDependencies": {
 		"@repo/biome-config": "workspace:*",
