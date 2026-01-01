@@ -12,7 +12,7 @@
 		"deploy": "pnpm build && wrangler deploy"
 	},
 	"dependencies": {
-		"@dotenvx/dotenvx": "^1.51.2",
+		"@dotenvx/dotenvx": "^1.51.4",
 		"@repo/auth": "workspace:*",
 		"@repo/ui": "workspace:*",
 		"@repo/validators": "workspace:*",

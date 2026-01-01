@@ -20,7 +20,7 @@
 		"check-types": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@dotenvx/dotenvx": "^1.51.2",
+		"@dotenvx/dotenvx": "^1.51.4",
 		"@hono/node-server": "^1.14.0",
 		"@hono/valibot-validator": "^0.5.0",
 		"@repo/auth": "workspace:*",
