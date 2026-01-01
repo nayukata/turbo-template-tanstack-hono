@@ -15,5 +15,5 @@ catalog:
   remeda: "^2.32.0"
   react-aria-components: "^1.14.0"
   tsx: "^4.19.0"
-  "@tanstack/react-form": "^1.27.6"
+  "@tanstack/react-form": "^1.27.7"
   "@tanstack/valibot-form-adapter": "^0.42.1"
